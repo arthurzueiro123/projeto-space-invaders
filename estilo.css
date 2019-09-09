@@ -1,0 +1,29 @@
+@font-face {
+    font-family: barcade;
+    src: url('iconian-fonts_barcade/BarcadeItalic-wzZz.otf');
+}
+
+.fonte-externa{
+    font-family: barcade;
+    font-size: 64px;
+    color:red;
+}
+
+.bg {
+    background-image: url(imagens/spaceinvaderbg2.jpg);
+    background-color: black;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    /* padding: 10rem; */
+    padding-top: 2rem;  
+  }
+
+.fundojogo{
+    
+}
+#botao{
+    position: absolute;
+  left: 47%; /* relative to nearest positioned ancestor or body element */
+  top: 51%; /*  relative to nearest positioned ancestor or body element */
+}

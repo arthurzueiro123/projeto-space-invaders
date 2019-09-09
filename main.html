@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>space invaders</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
+<body class="bg">
     
 </body>
-<center><canvas id="tela" width="800" height="600"></canvas></center>
+<center><button id="botao" onclick="iniciarjogo()" type="button" class="btn btn-lg btn-success">jogar</button></center>
+<center><canvas class="fundojogo" id="tela" width="800" height="600"></canvas></center>
 <script>
 // Space Invaders
 // Autor: Ayo Oyewole
@@ -25,16 +28,16 @@ var canhao;
 var laser;
 var alien;
 
-var canhaoX = 180;
+var canhaoX = 380;
 var canhaoY = 529;
-var laserX = 193;
+var laserX = 393;
 var laserY = 520;
 var alienX = 0;
 var alienY = 0;
 var inicioLaser = false;
 var impactoLaserX;
 var laserMovendo;
-var intervalo = 10;
+var intervalo = 10;//alterar velocidade aqui
 var posicao = 0;
 
 var alienLinhas = [10, 38, 66, 94, 122, 150, 178, 206, 234, 262, 290];
@@ -50,7 +53,12 @@ const TECLA_ACIMA = 38;
 
 onkeydown = moverCanhao; // Define função chamada ao se pressionar uma tecla
 
-iniciar(); // Chama função inicial do jogo
+function iniciarjogo() {
+    document.getElementById("botao").style.display = "none";
+//    getElementById("tela").style.display = "inline";
+    iniciar();
+ }
+// Chama função inicial do jogo
 
 
 // Sub-rotinas (funções)
@@ -59,7 +67,7 @@ function iniciar() {
     tela = document.getElementById("tela");
     c = tela.getContext("2d");
 	
-	c.fillStyle = "black";
+	c.fillStyle = "gray";
 	c.fillRect(0, 0, C_LARGURA, C_ALTURA);
 
     posicionarAlien();
@@ -85,30 +93,30 @@ function posicionarAlien() {
 
 function carregarImagens() {
     canhao = new Image();
-    canhao.src = "canhao.png";
+    canhao.src = "imagens/canhao.png";
     canhao.onload = function(){
         c.drawImage(canhao, canhaoX, canhaoY);
     }
     
     laser = new Image();
-    laser.src = "laser.png";
+    laser.src = "imagens/laser.png";
     
     alien = new Image();
-    alien.src = "spaceinvaders.png";
+    alien.src = "imagens/spaceinvaders.png";
 }
 
 function moverAliens(){
-        if (posicao <= 310){//anda 310 px
-            alienX += 1;//quantidade de pixels que se move, alterar alinX e parametro para compensar caso queira mudar velocidade
+        if (posicao <= 230){//anda 310 px
+            alienX += 2;
             posicao += 1;
-        } else if ((posicao > 310) && (posicao <= 325)){//anda e desse 15px, 15px tamanho da imagem, ele desse o tamanho da imagem
+        } else if ((posicao > 230) && (posicao <= 245)){//anda e desse 15px, 15px tamanho da imagem, ele desse o tamanho da imagem
             alienX += 1;
             alienY += 1
             posicao += 1;            
-        } else if ((posicao > 325) && (posicao <= 635)){//volta 310 px
-            alienX -= 1;
+        } else if ((posicao > 245) && (posicao <= 477)){//volta 310 px
+            alienX -= 2;
             posicao += 1;
-        } else if ((posicao > 635) && (posicao < 650)){//volta e desse 15px, 15px tamanho da imagem, ele desse o tamanho da imagem
+        } else if ((posicao > 477) && (posicao < 492)){//volta e desse 15px, 15px tamanho da imagem, ele desse o tamanho da imagem
             alienX -= 1;
             alienY += 1;
             posicao += 1;
@@ -133,7 +141,7 @@ function alienAtingido(){
         if ((laserY >= (alienY + aliensRestantes[i].posY)) && (laserY <= (alienY + aliensRestantes[i].posY + 20)) && 
             (impactoLaserX >= (alienX + aliensRestantes[i].posX - 5)) && (impactoLaserX <= (alienX + aliensRestantes[i].posX + 18))){
             if (!aliensRestantes[i].foiAtingido){
-                c.fillStyle = "black";
+                c.fillStyle = "gray";
                 c.fillRect((alienX + aliensRestantes[i].posX - 1), (alienY + aliensRestantes[i].posY - 1), 30, 30);//preencher quando for atingido
                 aliensRestantes[i].foiAtingido = true;
                 c.fillRect(impactoLaserX, laserY, 6, 19);
@@ -153,11 +161,11 @@ function fimDeJogo(){
     aliensRestantes = [];
     inicioLaser = false;
 	
-    c.fillStyle = "black";
+    c.fillStyle = "gray";
 	c.fillRect(0, 0, C_LARGURA, C_ALTURA);
     
     c.textAlign = "center";
-    c.font = "16px Arial";
+    c.font = "64px italic";
     c.fillStyle = "white";
     c.fillText("Fim de Jogo", C_LARGURA/2, C_ALTURA/2);
 
@@ -168,16 +176,16 @@ function moverCanhao(tecla){
     var codigo = tecla.keyCode;
     
     if ((codigo == TECLA_DIREITA) && (canhaoX <= 760)){
-        c.fillStyle = "black";
-        c.fillRect(canhaoX, 537, 31, 19);
+        c.fillStyle = "gray";
+        c.fillRect(canhaoX, 537, 31, 25);
         canhaoX += 8;
         laserX += 8;
 		c.drawImage(canhao, canhaoX, canhaoY);
     }
     
     if ((codigo == TECLA_ESQUERDA) && (canhaoX >= 9)){
-        c.fillStyle = "black";
-        c.fillRect(canhaoX, 537, 31, 19);
+        c.fillStyle = "gray";
+        c.fillRect(canhaoX, 537, 31, 25);
         canhaoX -= 8;
         laserX -= 8;
 		c.drawImage(canhao, canhaoX, canhaoY);
@@ -194,7 +202,7 @@ function moverCanhao(tecla){
 function dispararLaser(){
     if (inicioLaser && (laserY >= 60)){
         laserY -= 10;
-        c.fillStyle = "black";
+        c.fillStyle = "gray";
         c.fillRect(impactoLaserX, (laserY + 10), 6, 19);
 		
         if (laserY >= 70){
